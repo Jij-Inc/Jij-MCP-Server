@@ -2,6 +2,10 @@
 
 A server that provides tools to support the implementation of Jij Modeling.
 
+<a href="https://glama.ai/mcp/servers/@Jij-Inc/Jij-MCP-Server">
+  <img width="380" height="200" src="https://glama.ai/mcp/servers/@Jij-Inc/Jij-MCP-Server/badge" alt="Jij Server MCP server" />
+</a>
+
 ## Overview
 
 The Jij MCP Server contains various tools and utilities designed to assist with the implementation of JijModeling. 
