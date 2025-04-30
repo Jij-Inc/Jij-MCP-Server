@@ -1,0 +1,10 @@
+[project]
+name = "jij-mcp-server"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "jijmodeling>=1.12.4",
+    "mcp[cli]>=1.6.0",
+]
