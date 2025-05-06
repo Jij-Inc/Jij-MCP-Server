@@ -6,6 +6,12 @@ A server that provides tools to support mathematical optimization with JijModeli
 
 The Jij MCP Server contains various tools and utilities designed to assist with the implementation of mathematical optimization models using JijModeling and quantum computing tasks using Qiskit. This platform integrates both domains to provide comprehensive support for computational optimization and quantum programming.
 
+## Installation
+
+1. Clone this repository
+2. Install the required dependencies
+3. Configure the server as described below
+
 ## Features
 
 ### JijModeling Support
