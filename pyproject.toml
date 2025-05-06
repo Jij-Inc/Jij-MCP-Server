@@ -6,5 +6,6 @@ readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "jijmodeling>=1.12.4",
+    "markdownify>=1.1.0",
     "mcp[cli]>=1.6.0",
 ]

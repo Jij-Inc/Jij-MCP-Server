@@ -1,16 +1,24 @@
 # Jij MCP Server
 
-A server that provides tools to support the implementation of Jij Modeling.
+A server that provides tools to support mathematical optimization with JijModeling and quantum computing.
 
 ## Overview
 
-The Jij MCP Server contains various tools and utilities designed to assist with the implementation of JijModeling. 
+The Jij MCP Server contains various tools and utilities designed to assist with the implementation of mathematical optimization models using JijModeling and quantum computing tasks using Qiskit. This platform integrates both domains to provide comprehensive support for computational optimization and quantum programming.
 
-## Installation
+## Features
 
-1. Clone this repository
-2. Install the required dependencies
-3. Configure the server as described below
+### JijModeling Support
+- Reference information about JijModeling syntax and usage
+- Code checking for detection of common issues in JijModeling code
+- Model creation assistance with best practices guidance
+- Step-by-step workflow for implementing optimization models
+
+### Quantum Computing Support
+- Qiskit migration guides from v0.x to v1/v2
+- API reference documentation access
+- Integration with IBM Quantum Learning Hub tutorials
+- Structured workflow for quantum circuit design and execution
 
 ## Configuration
 
@@ -41,15 +49,16 @@ This configuration specifies:
     - `run`: Command to execute the server
     - `jij_mcp/server.py`: Server script to run
 
-## Usage
+## Available Tools
 
-Once configured, the MCP server will provide various tools to help with JijModeling implementation.
+### JijModeling Tools
+- `learn_jijmodeling`: Guide to JijModeling syntax and usage
+- `jm_check`: Validation tool for JijModeling code
 
-## Features
-
-- Support tools for JijModeling implementation
-- Easy configuration and setup
-- Extensible architecture for custom modeling workflows
+### Qiskit Tools
+- `qiskit_v0tov1v2_migration_guide`: Guide for transitioning between Qiskit versions
+- `qiskit_v1_api_reference_toc` and `qiskit_v2_api_reference_toc`: API documentation access
+- `qiskit_tutorial`: Access to IBM Quantum Learning Hub tutorials
 
 ## License
 
