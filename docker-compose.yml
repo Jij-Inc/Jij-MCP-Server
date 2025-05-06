@@ -1,0 +1,7 @@
+services:
+  jij-mcp-server:
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ghcr.io/jij-inc/jij-mcp-server:latest
