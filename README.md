@@ -55,6 +55,28 @@ This configuration specifies:
     - `run`: Command to execute the server
     - `jij_mcp/server.py`: Server script to run
 
+### Docker version
+
+[![Install with Docker in VS Code](https://img.shields.io/badge/VS_Code-Install_Server-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=jij&inputs=%5B%5D&config=%7B%22command%22%3A%22docker%22%2C%22args%22%3A%5B%22run%22%2C%22-i%22%2C%22--rm%22%2C%22--platform%22%2C%22linux%2Famd64%22%2C%22ghcr.io%2Fjij-inc%2Fjij-mcp-server%3Alatest%22%5D%7D)
+
+```json
+{
+    "mcpServers": {
+        "jij": {
+            "command": "docker",
+            "args": [
+                "run",
+                "-i",
+                "--rm",
+                "--platform",
+                "linux/amd64",
+                "ghcr.io/jij-inc/jij-mcp-server:latest"
+            ],
+        }
+    }
+}
+```
+
 ## Available Tools
 
 ### JijModeling Tools
