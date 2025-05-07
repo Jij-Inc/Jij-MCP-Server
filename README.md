@@ -2,6 +2,10 @@
 
 A server that provides tools to support mathematical optimization with JijModeling and quantum computing.
 
+<a href="https://glama.ai/mcp/servers/@Jij-Inc/Jij-MCP-Server">
+  <img width="380" height="200" src="https://glama.ai/mcp/servers/@Jij-Inc/Jij-MCP-Server/badge" alt="Jij Server MCP server" />
+</a>
+
 ## Overview
 
 The Jij MCP Server contains various tools and utilities designed to assist with the implementation of mathematical optimization models using JijModeling and quantum computing tasks using Qiskit. This platform integrates both domains to provide comprehensive support for computational optimization and quantum programming.
