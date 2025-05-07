@@ -4,4 +4,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: ghcr.io/jij-inc/jij-mcp-server:latest
+      args:
+        GIT_COMMIT: ${GIT_COMMIT:-unknown}
+    image: ghcr.io/jij-inc/jij-mcp-server:${GIT_BRANCH:-latest}
