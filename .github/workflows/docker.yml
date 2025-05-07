@@ -4,7 +4,8 @@ on:
   push:
     branches:
       - main
-  pull_request:
+  # Please re-enable this when the PR #2 has been merged
+  # pull_request:
 
 jobs:
   build-and-push:
