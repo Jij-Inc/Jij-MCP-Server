@@ -43,6 +43,8 @@ Qiskit v1.0, released in February 2024, marked a pivotal moment, shifting from a
     * `qiskit-finance`
     * `qiskit-experiments` (for characterization, calibration, and benchmarking, succeeding parts of `qiskit-ignis`)
 * These packages were updated to be compatible with Qiskit 1.0 and to use the new Primitives V1 interface.
+However, since these packages are no longer official IBM packages, there are concerns about compatibility with Qiskit 2.0. Therefore, please consider ways to avoid using them as much as possible.
+For example, if you need simple optimization in a variational algorithm, you can use scipy.optimize. If you would like to use it, we recommend using Qiskit 1.x.
 
 **Evolution through Qiskit 1.x Minor Releases (v1.1 - v1.4):**
 
@@ -90,4 +92,82 @@ Qiskit 2.0 built upon the foundation of v1.0, further modernizing the SDK, enhan
 * This primarily involved adopting Primitives V2 for their algorithms and ensuring compatibility with the removal of `BackendV1`, `qiskit.pulse`, and other legacy components. For instance, `qiskit-machine-learning` updated its QNNs and Kernels to support Primitives V2.
 
 In summary, the transition from Qiskit v0.x through v1.x to v2.0 has been a journey of significant maturation. Qiskit 1.0 laid the groundwork for stability and introduced the Primitives paradigm. Qiskit 2.0 solidified this by making Primitives V2 the standard, demanding more explicit user control over transpilation, and aggressively removing legacy code to create a more streamlined, performant, and modern SDK. Users migrating across these versions need to be particularly aware of the changes in simulation (Aer separation), execution (Primitives V1/V2, ISA circuits), and the removal of major components like `QuantumInstance`, `Opflow`, and `qiskit.pulse`.
+
+
+We recommend using Qiskit Aer when doing local simulations with Qiskit.
+If not, we recommend using EstimatorV2 or SamplerV2 from qiskit_ibm_runtime.
+Since AI often learns Qiskit code in v0.x, follow these prompts to generate Qiskit code.
+First, try to refer to a similar tutorial. Try to find a good tutorial.
+Next, try generating code.
+Then check whether the static check passes.
+If it passes, you have generated v1 or v2 Qiskit code.
+If it does not pass, review the code again and go back to the static check.
+If you have repeated this process several times and it is difficult, try providing the code to the user while summarizing where the static check errors are and asking them to fix it.
+
+
+# Examples with local simulation
+
+## Fake backends
+
+The fake backends mimic the behaviors of IBM QPUs by using snapshots. The snapshots contain important information about the QPU, such as the coupling map, basis gates, and qubit properties, which are useful for testing the transpiler and performing noisy simulations of the QPU. The noise model from the snapshot is automatically applied during simulation.
+
+```python
+from qiskit.circuit.library import RealAmplitudes
+from qiskit.circuit import QuantumCircuit, QuantumRegister, ClassicalRegister
+from qiskit.quantum_info import SparsePauliOp
+from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager
+from qiskit_ibm_runtime.fake_provider import FakeManilaV2
+from qiskit_ibm_runtime import SamplerV2 as Sampler, QiskitRuntimeService
+ 
+service = QiskitRuntimeService()
+ 
+# Bell Circuit
+qc = QuantumCircuit(2)
+qc.h(0)
+qc.cx(0, 1)
+qc.measure_all()
+ 
+# Run the sampler job locally using FakeManilaV2
+fake_manila = FakeManilaV2()
+pm = generate_preset_pass_manager(backend=fake_manila, optimization_level=1)
+isa_qc = pm.run(qc)
+ 
+# You can use a fixed seed to get fixed results.
+options = {"simulator": {"seed_simulator": 42}}
+sampler = Sampler(mode=fake_manila, options=options)
+ 
+result = sampler.run([isa_qc]).result()
+```
+
+## AerSimulator
+
+You can use local testing mode with simulators from Qiskit Aer, which provides higher-performance simulation that can handle larger circuits and custom noise models. It also supports Clifford simulation mode, which can efficiently simulate Clifford circuits with a large number of qubits.
+
+Example with sessions, without noise:
+```python
+from qiskit_aer import AerSimulator
+from qiskit.circuit.library import RealAmplitudes
+from qiskit.circuit import QuantumCircuit, QuantumRegister, ClassicalRegister
+from qiskit.quantum_info import SparsePauliOp
+from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager
+from qiskit_ibm_runtime import Session, SamplerV2 as Sampler, QiskitRuntimeService
+ 
+service = QiskitRuntimeService()
+ 
+# Bell Circuit
+qc = QuantumCircuit(2)
+qc.h(0)
+qc.cx(0, 1)
+qc.measure_all()
+ 
+# Run the sampler job locally using AerSimulator.
+# Session syntax is supported but ignored because local mode doesn't support sessions.
+aer_sim = AerSimulator()
+pm = generate_preset_pass_manager(backend=aer_sim, optimization_level=1)
+isa_qc = pm.run(qc)
+with Session(backend=aer_sim) as session:
+    sampler = Sampler()
+    result = sampler.run([isa_qc]).result()
+```
+
 """

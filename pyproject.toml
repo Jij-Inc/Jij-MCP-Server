@@ -7,5 +7,13 @@ requires-python = ">=3.11"
 dependencies = [
     "jijmodeling>=1.12.4",
     "markdownify>=1.1.0",
+    "matplotlib>=3.10.1",
     "mcp[cli]>=1.6.0",
+    "networkx>=3.4.2",
+    "pylint>=3.3.7",
+    "pyright>=1.1.400",
+    "qiskit>=2.0.0",
+    "qiskit-aer>=0.17.0",
+    "qiskit-algorithms>=0.3.1",
+    "toml>=0.10.2",
 ]

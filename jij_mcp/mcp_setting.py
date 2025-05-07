@@ -3,6 +3,7 @@ from jm_prompts import jijmodeling_guide_prompt
 from jm_checker import jijmodeling_check
 from fetch import Fetcher, FetchRequestArgs, FetchResponse
 from quantum.qiskit_prompt import qiskit_v1_v2_migration_prompt
+from py_checker.pyright_check import run_code_in_temporary_venv
 
 import typing as typ
 
@@ -163,13 +164,13 @@ async def qiskit_tutorial(tutorial_name: str) -> str:
     """
     Fetch a Qiskit tutorial from the IBM Quantum Learning Hub.
     First, get the table of contents (toc) and check the tutorial names.
-    Tutorial names should be specified in lowercase with hyphens (e.g., "variational-quantum-eigensolver").
+    Tutorial names should be specified in lowercase with hyphens (e.g., "variational-quantum-eigensolver", "quantum-approximate-optimization-algorithm").
     If the tutorial name is not found, it will return an error message.
 
     Args:
         tutorial_name (str): The name of the tutorial to fetch. Use "toc" for the table of contents.
         If the tutorial name is not found, it will return an error message.
-        tutorial_name should be in lowercase and hyphenated (e.g., "variational-quantum-eigensolver").
+        tutorial_name should be in lowercase and hyphenated (e.g., "variational-quantum-eigensolver", "quantum-approximate-optimization-algorithm").
     Returns:
         str: The tutorial content in Markdown format.
     """
@@ -181,12 +182,53 @@ async def qiskit_tutorial(tutorial_name: str) -> str:
     response: FetchResponse = await fetch_as_markdown(url)
     if response.isError:
         return response.errorMessage if response.errorMessage else "Error fetching the content"
-    
+
     if tutorial_name == "toc":
         # If the tutorial name is "toc", return the table of contents
         return url + "\n" + response.content[0]["text"] + "\n\n" + "Please specify the tutorial name in lowercase and hyphenated (e.g., 'variational-quantum-eigensolver')."
     else:
         return url + "\n" + response.content[0]["text"] 
+
+
+@mcp.tool()
+async def qiskit_code_static_check(
+    code: str,
+    qiskit_version: typ.Literal["v1", "v2"],
+    other_dependencies: typ.Optional[list[str]] = None,
+) -> dict:
+    """
+    Check the provided Qiskit code for static analysis.
+    This function runs the code in a temporary virtual environment with the specified Qiskit version.
+    AI models are likely trained on Qiskit v0 and may not be familiar with v1 or v2.
+    Therefore, we perform static analysis by running AI-generated code on v1 or v2.
+    Errors will occur if the code uses modules or functions that are no longer supported.
+    In such cases, please refer to the v1 or v2 migration guide or similar tutorials.
+    Use v2 unless you have a specific reason not to.
+    If you need other dependencies like qiskit-ibm-runtime or qiskit-aer, please specify them as a list in other_dependencies.
+
+    Args:
+        code (str): AI-generated Qiskit code to check.
+        qiskit_version (typ.Literal["v1", "v2"]): The Qiskit version to use for checking the code.
+        other_dependencies (typ.Optional[list[str]], optional): List of other dependencies to include. Defaults to None.
+
+    Returns:
+        dict: The result of the static analysis, including any errors or warnings.
+    """
+    dependencies = other_dependencies if other_dependencies else []
+    if qiskit_version == "v1":
+        dependencies.append("qiskit==1.4.2")
+    elif qiskit_version == "v2":
+        dependencies.append("qiskit>=2.0.0")
+    else:
+        dependencies.append("qiskit")
+
+    result = run_code_in_temporary_venv(
+        code,
+        dependencies=dependencies,
+        execute_code_after_check=False
+    )
+
+    return result
 
 
 # Utils ----------------------

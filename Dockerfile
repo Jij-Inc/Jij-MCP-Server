@@ -4,7 +4,7 @@ ARG GIT_COMMIT
 
 LABEL org.opencontainers.image.source="https://github.com/Jij-Inc/Jij-MCP-Server"
 LABEL org.opencontainers.image.title="Jij MCP Server"
-LABEL org.opencontainers.image.description="A MCP server for supporting the implementation of JijModeling."
+LABEL org.opencontainers.image.description="A MCP server for supporting the implementation of Optimization problem and Quantum algorithms with Jij's tools."
 LABEL org.opencontainers.image.licenses="Apache-2.0"
 LABEL org.opencontainers.image.revision=$GIT_COMMIT
 
